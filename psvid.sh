@@ -46,7 +46,7 @@ outfolder="${videoname%.*}"
 
 mkdir -p $outfolder
 
-echo '' > $outfolder/mimes.txt
+echo -n '' > $outfolder/mimes.txt
 
 for (( i = 0; i < ${#FFMPEGFLAGS[@]}; i++ )); do
     ffmpeg -i "$1" ${FFMPEGFLAGS[$i]} $outfolder/$outfolder${EXTENSIONS[$i]}
