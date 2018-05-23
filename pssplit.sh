@@ -1,13 +1,17 @@
 PARTSIZE=7
 
 if [ -z $1 ]; then
-    echo "Usage: $0 in_file" >&2
+    echo "Usage: $0 input [partsize in minutes ($PARTSIZE)]" >&2
     exit 1
 fi
 
 if [ ! -f $1 ]; then
     echo "Could not find $1" >&2
     exit 1
+fi
+
+if [ $2 ]; then
+    PARTSIZE=$2
 fi
 
 duration=$(ffprobe -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $1 2>/dev/null)
