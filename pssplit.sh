@@ -21,12 +21,16 @@ if [ -z $duration ]; then
     exit 1
 fi
 
+if [ ${1##*.} == "mp4" ]; then
+    containerflags="-movflags empty_moov+default_base_moof+frag_keyframe"
+fi
+
 # Now in minutes
 duration=$((${duration%.*}/60))
 
 i=0
 while [[ $duration -gt 0 ]]; do
-    ffmpeg -ss "$((PARTSIZE*i)):00" -i "$1" -t $PARTSIZE:00 -c:a copy -c:v copy "${1%.*}.part$((i+1)).${1##*.}"
+    ffmpeg -ss "$((PARTSIZE*i)):00" -i "$1" -t $PARTSIZE:00 -c:a copy -c:v copy $containerflags "${1%.*}.part$((i+1)).${1##*.}"
     i=$((i+1))
     duration=$((duration-PARTSIZE))
 done
