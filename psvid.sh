@@ -39,15 +39,15 @@ if [ ! -f $1 ]; then
 fi
 
 videoname=$(basename -- "$1")
-outfolder="${videoname%.*}"
+outfolder=${videoname%.*}
 
-mkdir -p $outfolder
+mkdir -p "$outfolder"
 
-echo -n '' > $outfolder/mimes.txt
+echo -n '' > "$outfolder/mimes.txt"
 
 for (( i = 0; i < ${#FFMPEGFLAGS[@]}; i++ )); do
-    ffmpeg -i "$1" $COMMONFLAGS ${FFMPEGFLAGS[$i]} $outfolder/$outfolder${EXTENSIONS[$i]}
-    echo "${EXTENSIONS[$i]}: ${MIMES[$i]}" >> $outfolder/mimes.txt
+    ffmpeg -i "$1" $COMMONFLAGS ${FFMPEGFLAGS[$i]} "$outfolder/$outfolder${EXTENSIONS[$i]}"
+    echo "${EXTENSIONS[$i]}: ${MIMES[$i]}" >> "$outfolder/mimes.txt"
 done
 
 exit 0
